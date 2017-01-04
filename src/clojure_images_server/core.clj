@@ -1,21 +1,17 @@
 (ns clojure-images-server.core
-  (:require [compojure.core :refer :all]
+  (:require [clojure.string :as str]
+            [compojure.core :refer :all]
             [compojure.route :as route]
-            [immuconf.config])
+            [clojure-images-server.conf :as conf])
   (:use [ring.util.response]))
-
-(def cfg (immuconf.config/load "config.edn"))
-
-(def my-routes
- (immuconf.config/get cfg :routes))
 
 (defroutes serve-routes
   (apply routes
     (map
      #(GET
-       (str (:servepath %) "/:file") [file]
-         (resource-response file {:root (:fileserve %)}))
-     my-routes)))
+       (str (:fileserve %) "/:file") [file]
+         (resource-response file {:root (:savepath %)}))
+     conf/routes)))
 
 (defroutes app-routes
   (route/not-found (resource-response "404.html" {:root "static"})))
