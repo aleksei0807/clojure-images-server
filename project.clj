@@ -8,7 +8,8 @@
                  [compojure "1.5.1"]
                  [levand/immuconf "0.1.0"]
                  [ring-json-response "0.2.0"]
-                 [ring-cors "0.1.8"]]
+                 [ring-cors "0.1.8"]
+                 [digest "1.4.5"]]
   :plugins [[lein-ring "0.10.0"]]
   :ring {:handler clojure-images-server.core/app
          :auto-reload? true

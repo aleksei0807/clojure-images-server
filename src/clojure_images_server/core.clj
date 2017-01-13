@@ -22,8 +22,8 @@
   (apply routes
     (map
      #(GET
-       (str (:fileserve %) "/:file") [file]
-         (resource-response file {:root (:savepath %)}))
+       (str (:servepath %) "/:file") [file]
+         (resource-response file {:root (:fileserve %)}))
      my-routes)))
 
 (defroutes app-routes

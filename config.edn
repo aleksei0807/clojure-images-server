@@ -1,12 +1,12 @@
 {:routes [{:servepath "/multiple"
-           :savepath "static/multipleFiles"
-           :fullpath "http://localhost:9090/static/multipleFiles"
+           :savepath "resources/static/multipleFiles"
+           :fullpath "//localhost:9090/multiple"
            :fileserve "static/multipleFiles"
            :multiple true
            :rename true}
           {:servepath "/notmultiple"
-           :savepath "static/files"
-           :fullpath "http://localhost:9090/static/files"
+           :savepath "resources/static/files"
+           :fullpath "//localhost:9090/notmultiple"
            :fileserve "static/files"
            :multiple false
            :rename true}]}
