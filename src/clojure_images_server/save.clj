@@ -10,19 +10,19 @@
   (get (:params (mp/multipart-params-request req)) "imageFiles"))
 
 (defn- save-file [rs file]
-  (let [rename? (:rename rs)
-        tempfile (:tempfile file)
-        original-name (:filename file)
-        dot (string/last-index-of original-name ".")
-        ext (subs original-name dot)
-        name (if rename?
-               (str (digest/md5 tempfile) ext)
-               (:filename file))
-        savepath (str (:savepath rs) "/" name)
-        fullpath (str (:fullpath rs) "/" name)]
-    (do (when-not (.exists (as-file savepath))
-          (copy tempfile (java.io.File. savepath)))
-      fullpath)))
+   (let  [rename? (:rename rs)
+            tempfile (:tempfile file)
+          original-name (:filename file)
+          dot (string/last-index-of original-name ".")
+          ext (subs original-name dot)
+          name (if rename?
+                 (str (digest/md5 tempfile) ext)
+                 (:filename file))
+          savepath (str (:savepath rs) "/" name)
+          fullpath (str (:fullpath rs) "/" name)]
+     (do (when-not (.exists (as-file savepath))
+           (copy tempfile (java.io.File. savepath)))
+       fullpath)))
 
 
 (defn- save-files [rs files]
@@ -30,7 +30,7 @@
     (if (map? files)
         (list (save-file files))
         (if (:multiple rs)
-          (map save-file files)
+          (pmap #(deref (future (save-file %))) files)
           (list (save-file (get files 0)))))))
 
 (defn handler [req rs]
